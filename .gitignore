@@ -286,3 +286,6 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/Practice/Practice.vcxproj.filters
+/Practice/Practice.vcxproj
+/Practice/Practice.sln
