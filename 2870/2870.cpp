@@ -4,7 +4,7 @@
 #include <vector>
 #include <algorithm>
 using namespace std;
-//BOJ #1013
+//BOJ #2870
 vector<string> ret;
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -21,6 +21,18 @@ int main() {
 				ret.push_back(ss);
 			}
 			s = m.suffix();
+		}
+	}
+	for (auto it = ret.begin(); it != ret.end(); it++) {
+		for (int i = 0; i < (*it).size(); i++) {
+			if ((*it).size() == 1) {
+				break;
+			} else if ((*it)[i] == '0') {
+				(*it).erase(i, 1);
+				i--;
+			} else {
+				break;
+			}
 		}
 	}
 	sort(ret.begin(), ret.end(), [](string& a, string& b)->bool {
