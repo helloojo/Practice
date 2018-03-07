@@ -2,7 +2,7 @@
 #include <algorithm>
 using namespace std;
 //BOJ #1660
-int all[200];
+int all[150];
 int memo[300001];
 int main() {
 	ios_base::sync_with_stdio(false);
@@ -17,11 +17,11 @@ int main() {
 		memo[i] = 987654321;
 	}
 	all[1] = 1;
-	for (int i = 2; i < 200; i++) {
+	for (int i = 2; i < 150; i++) {
 		all[i] = all[i - 1] + next;
 		next = ++up + next;
 	}
-	for (int i = 1; i < 200; i++) {
+	for (int i = 1; i < 150; i++) {
 		for (int j = all[i]; j <= n; j++) {
 			if (all[i] > n) {
 				break;
