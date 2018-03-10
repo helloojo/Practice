@@ -20,8 +20,7 @@ int main() {
 		if(!(p%coin[1])) {
 			while(p) {
 				ret += (p/coin[n]);
-				p %= coin[n];
-				n--;
+				p %= coin[n--];
 			}
 		}
 		cout<<ret<<'\n';
