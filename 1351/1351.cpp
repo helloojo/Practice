@@ -21,7 +21,7 @@ int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cin >> n >> p >> q;
-	m[0] = 1;
+	m[0] = 1; 
 	cout << dp(n);
 	return 0;
 }
