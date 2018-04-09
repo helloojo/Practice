@@ -5,7 +5,7 @@ int abit;
 int bbit;
 int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+	cin.tie(Nint);
 	int t;
 	cin >> t;
 	int as, bs;

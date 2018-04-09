@@ -5,17 +5,41 @@ using namespace std;
 int price[101][101];
 int memo[101][101];
 
+const int MAXX = 1 << 20;
+char buf[MAXX];
+int p = MAXX;
+inline char getcha() {
+	if (p == MAXX) {
+		fread(buf, 1, MAXX, stdin);
+		p = 0;
+	}
+	return buf[p++];
+}
+
+inline void getint(int &x) {
+	int tmp = getcha();
+	x = 0;
+	while (tmp < 47) {
+		tmp = getcha();
+	}
+	while (tmp > 47) {
+		x = x * 10 + (tmp - '0');
+		tmp = getcha();
+	}
+}
+
 int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+	cout.tie(NULL);
 	int t;
-	cin >> t;
+	getint(t);
 	int n, m;
 	while (t--) {
-		cin >> n >> m;
+		getint(n);
+		getint(m);
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= m; j++) {
-				cin >> price[i][j];
+				getint(price[i][j]);
 				memo[i][j] = 987654321;
 			}
 		}

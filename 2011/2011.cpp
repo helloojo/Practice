@@ -1,10 +1,10 @@
-﻿#include <iostream>
+#include <iostream>
 using namespace std;
-//BOJ #
+//BOJ #2011
 
 int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+	cin.tie(Nint);
+
 	return 0;
 }

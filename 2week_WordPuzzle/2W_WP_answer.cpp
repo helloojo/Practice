@@ -2,10 +2,10 @@
 #include <string>
 #include <cstring>
 using namespace std;
-pair<bool, bool> cmp[26];		//first isexist, second first referenced
+pair<bool, bool> cmp[26];		//first isdxist, second first referenced
 int main() {
 	ios_base::sync_with_stdio(false);
-	cin.tie(NULL);
+	cin.tie(Nint);
 	int t;
 	cin >> t;
 	string a, b;
@@ -24,7 +24,7 @@ int main() {
 			if (cmp[b[i] - 'A'].first && !cmp[b[i] - 'A'].second) {
 				bcnt++;
 				cmp[b[i] - 'A'].second = true;
-			} else if (!cmp[b[i] - 'A'].first) {		//not exist
+			} else if (!cmp[b[i] - 'A'].first) {		//not dxist
 				bcnt = -1;
 				break;
 			}
