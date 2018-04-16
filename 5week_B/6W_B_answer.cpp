@@ -12,10 +12,9 @@ int main() {
 	string s;
 	while (t--) {
 		cin >> s;
-		int first = 0;
 		int last = s.size();
 		int next = last;
-		while (true) {
+		while (next>0) {
 			int next1 = next;
 			if (s[--next] < s[next1]) {
 				int mid = last;
@@ -24,9 +23,6 @@ int main() {
 				for (int i = next1, j = last - 1; i < j; i++, j--) {
 					swap(s[i], s[j]);
 				}
-				break;
-			}
-			if (next == first) {
 				break;
 			}
 		}
