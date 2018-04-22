@@ -35,23 +35,11 @@ int main() {
 			getint(a);
 			getint(b);
 			if (a > b) {
-				if (b + (k - a) < a - 2) {
-					cout << 0 << '\n';
-				} else {
-					cout << 1 << '\n';
-				}
+				cout << (b + (k - a) >= a - 2) << '\n';
 			} else if (a < b) {
-				if (a + (k - b) <= b - 2) {
-					cout << 0 << '\n';
-				} else {
-					cout << 1 << '\n';
-				}
+				cout << (a + (k - b) > b - 2) << '\n';
 			} else {
-				if (a <= k) {
-					cout << 1 << '\n';
-				} else {
-					cout << 0 << '\n';
-				}
+				cout << (a <= k) << '\n';
 			}
 		}
 	}

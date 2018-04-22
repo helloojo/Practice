@@ -10,13 +10,12 @@ int main() {
 	int t;
 	cin >> t;
 	string s;
-	int a, b;
+	int a;
 	while (t--) {
 		cin >> s;
 		a = stoi(s);
 		reverse(s.begin(), s.end());
-		b = stoi(s);
-		a += b;
+		a += stoi(s);
 		s = to_string(a);
 		bool yes = true;
 		for (int i = 0, j = s.size() - 1; i < j; i++, j--) {
