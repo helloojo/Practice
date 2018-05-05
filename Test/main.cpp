@@ -1,74 +1,75 @@
 #include <iostream>
+#include <queue>
+#include <functional>
+#include <fstream>
 using namespace std;
-template <class T>
-class Node {
-public:
-	Node<T>* next;
-	Node<T>* prev;
-	T elem;
+
+struct Process {
+	int priority;
+	int process_number;
+	int time;
+	bool operator>(const Process& p) {
+		return priority > p.priority;
+	}
 };
 
-template <class T>
-class Linked_List {
+class RR {
 private:
-	Node<T>* front;
-	Node<T>* rear;
+	priority_queue<Process, vector<Process>, greater<Process>> pq;
+	int timeq;
 public:
-	Linked_List() {
-		front = nullptr;
-		rear = nullptr;
+	RR(int t) {
+		timeq = t;
 	}
-	void push_back(T elem) {
-		Node<T>* temp = nullptr;
-		if (front == nullptr) {
-			temp = new Node<T>;
-			temp->next = temp;
-			temp->prev = temp;
-			temp->elem = elem;
-			front = temp;
-			rear = temp;
+	void push(Process p) {
+		pq.push(p);
+	}
+	Process pop() {
+		Process p = pq.top();
+		pq.pop();
+		return p;
+	}
+};
+
+class CFS {
+private:
+	priority_queue<Process, vector<Process>, greater<Process>> pq;
+public:
+	void push(Process p) {
+		pq.push(p);
+	}
+	Process pop() {
+
+	}
+	int getWeight(const Process& p) {
+		int pri = p.priority;
+		if (pri <= 109) {
+			return 10;
+		} else if (pri <= 119) {
+			return 8;
+		} else if (pri <= 129) {
+			return 6;
 		} else {
-			temp = new Node<T>;
-			temp->next = front;
-			temp->prev = rear;
-			temp->elem = elem;
-			rear->next = temp;
-			rear = temp;
+			return 4;
 		}
-	}
-	void push_front(T elem) {
-		Node<T>* temp = nullptr;
-		if (front == nullptr) {
-			temp = new Node<T>;
-			temp->next = temp;
-			temp->prev = temp;
-			temp->elem = elem;
-			front = temp;
-			rear = temp;
-		} else {
-			temp = new Node<T>;
-			temp->prev = rear;
-			temp->next = front;
-			temp->elem = elem;
-			front->prev = temp;
-			front = temp;
-		}
-	}
-	void print() {
-		Node<T>* temp = front;
-		do {
-			cout << temp->elem << ' ';
-			temp = temp->next;
-		} while (temp != front);
-		cout << '\n';
 	}
 };
 
 int main() {
-	Linked_List<int> l;
-	l.push_back(1);
-	l.push_back(2);
-	l.push_back(3);
-	l.print();
+	ifstream in("input.txt");
+	Process temp;
+	RR r(2);
+	CFS c;
+	int pr, pn, ti;
+	while (in >> pr >> pn >> ti) {
+		temp.priority = pr;
+		temp.process_number= pn;
+		temp.time = ti;
+		if (temp.priority < 100) {
+			r.push(temp);
+		} else {
+			c.push(temp);
+		}
+	}
 	return 0;
 }
