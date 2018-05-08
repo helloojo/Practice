@@ -1,50 +1,54 @@
 #include <iostream>
 #include <vector>
+#include <cstring>
 #include <algorithm>
 #include <queue>
-#include <cstring>
 using namespace std;
 //BOJ #1967
-int n, m;
-char map[51][51];
-bool visited[301][301];
-int pos[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
+
+vector<vector<pair<int, int>>> adj;
+bool visited[10001];
 queue<pair<int, int>> q;
 
-void bfs(int y, int x) {
-	visited[y][x] = true;
-	q.push(make_pair(y, x));
+int bfs(int src) {
+	q.push(make_pair(src, 0));
+	visited[src] = true;
+	int ret = 0;
 	while (!q.empty()) {
 		auto p = q.front();
 		q.pop();
-		for (int i = 0; i < 4; i++) {
-			int nx = p.second + pos[i][0];
-			int ny = p.first + pos[i][1];
-			if (nx < 0 || ny < 0 || nx >= m || ny >= n) {
+		ret = max(ret, p.second);
+		for (int i = 0; i < adj[p.first].size(); i++) {
+			int next = adj[p.first][i].first;
+			int dis = adj[p.first][i].second + p.second;
+			if (visited[next]) {
 				continue;
 			}
-			if (visited[ny][nx]) {
-				continue;
-			}
-			if (!map[ny][nx]) {
-				map[p.first][p.second]--;
-				if (map[p.first][p.second] < 0) {
-					map[p.first][p.second] = 0;
-				}
-				continue;
-			}
-			visited[ny][nx] = true;
-			q.push(make_pair(ny, nx));
+			visited[next] = true;
+			q.push(make_pair(next, dis));
 		}
 	}
+	return ret;
 }
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	cin >> n >> m;
+	cout.tie(NULL);
+	int n;
+	cin >> n;
+	int a, b, c;
+	adj = vector<vector<pair<int, int>>>(n + 1);
 	for (int i = 0; i < n; i++) {
-		cin >> map[i];
+		cin >> a >> b >> c;
+		adj[a].push_back(make_pair(b, c));
+		adj[b].push_back(make_pair(a, c));
 	}
+	int maxdis = -1;
+	for (int i = 1; i <= n; i++) {
+		maxdis = max(maxdis, bfs(i));
+		memset(visited, 0, sizeof(visited));
+	}
+	cout << maxdis;
 	return 0;
 }
