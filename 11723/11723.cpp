@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstring>
 using namespace std;
 //BOJ #11723
 
@@ -29,9 +30,7 @@ int main() {
 				arr[i] = true;
 			}
 		} else if (q == "empty") {
-			for (int i = 1; i <= 20; i++) {
-				arr[i] = false;
-			}
+			memset(arr, 0, sizeof(0));
 		} else if (q == "toggle") {
 			cin >> num;
 			arr[num] = !arr[num];
