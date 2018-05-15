@@ -1,0 +1,108 @@
+#include <iostream>
+#include <queue>
+#include <cstring>
+#include <string>
+using namespace std;
+//BOJ #9019
+queue<pair<int, string>> q;
+bool visited[10001];
+
+int D(int n) {
+	return (2 * n) % 10000;
+}
+int S(int n) {
+	if (n) {
+		n--;
+	} else {
+		n = 9999;
+	}
+	return n;
+}
+int L(int n) {
+	int d[4];
+	d[0] = n / 1000;
+	d[1] = (n % 1000) / 100;
+	d[2] = (n % 100) / 10;
+	d[3] = n % 10;
+	n = d[1] * 1000 + d[2] * 100 + d[3] * 10 + d[0];
+	return n;
+}
+int R(int n) {
+	int d[4];
+	d[0] = n / 1000;
+	d[1] = (n % 1000) / 100;
+	d[2] = (n % 100) / 10;
+	d[3] = n % 10;
+	n = d[3] * 1000 + d[0] * 100 + d[1] * 10 + d[2];
+	return n;
+}
+
+int func(int val, int n) {
+	int temp = 0;
+	switch (val)
+	{
+	case 0:
+		temp = D(n);
+		break;
+	case 1:
+		temp = S(n);
+		break;
+	case 2:
+		temp = L(n);
+		break;
+	case 3:
+		temp = R(n);
+		break;
+	}
+	return temp;
+}
+
+string bfs(int src, int dest) {
+	visited[src] = true;
+	q.push({ src,"" });
+	string ret = "qwertyuiopasdfghjklzxcvbnmqwertyuiopasfwefsefesfsdfkjasehfiewhfiwofihawehfiowehifohweofhiodfghjklzxcvbnm";
+	while (!q.empty()) {
+		auto p = q.front();
+		q.pop();
+		if (p.first == dest) {
+			if (ret.size() > p.second.size()) {
+				ret = p.second;
+			}
+		}
+		for (int i = 0; i < 4; i++) {
+			int temp = func(i, p.first);
+			if (visited[temp]) continue;
+			if (ret.size() < p.second.size() + 1) continue;
+			visited[temp] = true;
+			switch (i)
+			{
+			case 0:
+				q.push({ temp,p.second + "D" });
+				break;
+			case 1:
+				q.push({ temp,p.second + "S" });
+				break;
+			case 2:
+				q.push({ temp,p.second + "L" });
+				break;
+			case 3:
+				q.push({ temp,p.second + "R" });
+				break;
+			}
+		}
+	}
+	return ret;
+}
+int main() {
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int t;
+	cin >> t;
+	while (t--) {
+		int a, b;
+		memset(visited, 0, sizeof(visited));
+		cin >> a >> b;
+		cout << bfs(a, b) << '\n';
+	}
+}
