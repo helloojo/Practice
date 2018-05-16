@@ -13,7 +13,7 @@ int main() {
 	cin >> a >> b;
 	string ret = "";
 	int up = 0;
-	for (int i = a.size(), j = b.size(); i >= 0 || j >= 0;) {
+	for (int i = a.size()-1, j = b.size()-1; i >= 0 || j >= 0;) {
 		int temp;
 		if (i == -1) {
 			temp = b[j] - '0' + up;
@@ -26,6 +26,7 @@ int main() {
 			i--;
 			j--;
 		}
+		up = 0;
 		switch (temp)
 		{
 		case 0:
@@ -40,6 +41,13 @@ int main() {
 			break;
 		}
 	}
+	if (up) {
+		ret += "1";
+	}
+	while (ret.back() != '1') {
+		ret.pop_back();
+	}
 	reverse(ret.begin(), ret.end());
+	
 	cout << ret;
 }

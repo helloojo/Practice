@@ -37,26 +37,6 @@ int R(int n) {
 	return n;
 }
 
-int func(int val, int n) {
-	int temp = 0;
-	switch (val)
-	{
-	case 0:
-		temp = D(n);
-		break;
-	case 1:
-		temp = S(n);
-		break;
-	case 2:
-		temp = L(n);
-		break;
-	case 3:
-		temp = R(n);
-		break;
-	}
-	return temp;
-}
-
 string bfs(int src, int dest) {
 	visited[src] = true;
 	q.push({ src,"" });
@@ -70,25 +50,31 @@ string bfs(int src, int dest) {
 			}
 		}
 		for (int i = 0; i < 4; i++) {
-			int temp = func(i, p.first);
-			if (visited[temp]) continue;
+			int temp = 0;
+			string temps = p.second;
 			if (ret.size() < p.second.size() + 1) continue;
-			visited[temp] = true;
 			switch (i)
 			{
 			case 0:
-				q.push({ temp,p.second + "D" });
+				temp = D(p.first);
+				temps += "D";
 				break;
 			case 1:
-				q.push({ temp,p.second + "S" });
+				temp = S(p.first);
+				temps += "S";
 				break;
 			case 2:
-				q.push({ temp,p.second + "L" });
+				temp = L(p.first);
+				temps += "L";
 				break;
 			case 3:
-				q.push({ temp,p.second + "R" });
+				temp = R(p.first);
+				temps += "R";
 				break;
 			}
+			if (visited[temp]) continue;
+			visited[temp] = true;
+			q.push({ temp,temps });
 		}
 	}
 	return ret;
