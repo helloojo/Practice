@@ -21,16 +21,19 @@ int main() {
 		}
 		p[n + 1].first = 987654321;
 		for (int i = 1; i <= n; i++) {
-			if (p[i].first - p[i].second >= 0 && p[i - 1].first + p[i - 1].second < p[i].first - p[i].second) {
+			//left
+			if (p[i - 1].first + p[i - 1].second < p[i].first - p[i].second) {
 				memo[i][0] = max({ memo[i][0],memo[i - 1][0],memo[i - 1][1],memo[i - 1][2] }) + p[i].second;
-			} else if (p[i].first - p[i].second >= 0 && p[i].first - p[i].second > p[i - 1].first) {
+			} else if (p[i].first - p[i].second > p[i - 1].first) {
 				memo[i][0] = max({ memo[i][0],memo[i - 1][0],memo[i - 1][2] }) + p[i].second;
 			}
+			//right
 			if (p[i].first > p[i - 1].first + p[i - 1].second && p[i].first + p[i].second < p[i + 1].first) {
 				memo[i][1] = max({ memo[i][1],memo[i - 1][0],memo[i - 1][1],memo[i - 1][2] }) + p[i].second;
 			} else if (p[i].first + p[i].second < p[i + 1].first) {
 				memo[i][1] = max({ memo[i][1],memo[i - 1][0],memo[i - 1][2] }) + p[i].second;
 			}
+			//not
 			if (p[i - 1].first + p[i - 1].second < p[i].first) {
 				memo[i][2] = max({ memo[i][2],memo[i - 1][0],memo[i - 1][1],memo[i - 1][2] });
 			} else {
