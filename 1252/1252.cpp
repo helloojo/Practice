@@ -48,6 +48,5 @@ int main() {
 		ret.pop_back();
 	}
 	reverse(ret.begin(), ret.end());
-	
 	cout << ret;
 }
