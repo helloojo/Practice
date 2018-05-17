@@ -45,14 +45,15 @@ int main() {
 		}
 	}
 	if (ok) {
-		string temp = ret;
-		reverse(temp.begin(), temp.end());
 		if (odd) {
-			ret += (mid + temp);
+			cout << ret << mid;
+			reverse(ret.begin(), ret.end());
+			cout << ret;
 		} else {
-			ret += temp;
+			cout << ret;
+			reverse(ret.begin(), ret.end());
+			cout << ret;
 		}
-		cout << ret;
 	} else {
 		cout << "I'm Sorry Hansoo";
 	}
