@@ -12,8 +12,8 @@ bool visit[50];
 void dfs(int here) {
 	st[++in] = here;
 	visit[here] = true;
-	if (in == 6) {
-		for (int i = 0; i < in; i++) {
+	if (in == 5) {
+		for (int i = 0; i <= in; i++) {
 			cout << st[i] << ' ';
 		}
 		cout << '\n';
@@ -21,7 +21,7 @@ void dfs(int here) {
 		return;
 	}
 	for (int i = 0; i < 50; i++) {
-		if (map[here][i] && visit[i]) {
+		if (map[here][i] && !visit[i]) {
 			dfs(i);
 		}
 	}
@@ -39,13 +39,12 @@ int main() {
 			cin >> s[i];
 		}
 		for (int i = 0; i < k; i++) {
-			for (int j = 0; j < k; j++) {
-				if (i == j) continue;
+			for (int j = i+1; j < k; j++) {
 				map[s[i]][s[j]] = 1;
-				map[s[j]][s[i]] = 1;
 			}
 		}
 		dfs(s[0]);
+		cout << '\n';
 		cin >> k;
 	}
 	return 0;
