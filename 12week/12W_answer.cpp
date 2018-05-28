@@ -9,12 +9,12 @@ int n, m;
 priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 vector<vector<pair<int, int>>> adj;
 vector<int> dis;
-vector<int> visited;
+vector<int> parent;
 
 int dijkstra(int start, int dest, int blocksrc = 0, int blockdest = 0) {
 	dis[start] = 0;
 	pq.push({ dis[start],start });
-	visited[start] = start;
+	parent[start] = start;
 	while (!pq.empty()) {
 		auto p = pq.top();
 		pq.pop();
@@ -34,7 +34,7 @@ int dijkstra(int start, int dest, int blocksrc = 0, int blockdest = 0) {
 			dis[next] = weight;
 			pq.push({ dis[next],next });
 			if (!blocksrc) {
-				visited[next] = p.second;
+				parent[next] = p.second;
 			}
 		}
 	}
@@ -52,7 +52,7 @@ int main() {
 		int a, b, c;
 		adj = vector<vector<pair<int, int>>>(n + 1);
 		dis = vector<int>(n + 1, 987654321);
-		visited = vector<int>(n + 1);
+		parent = vector<int>(n + 1);
 		for (int i = 0; i < m; i++) {
 			cin >> a >> b >> c;
 			adj[a].push_back({ c,b });
@@ -61,10 +61,10 @@ int main() {
 		int great = dijkstra(1, n);
 		int next = n;
 		int another = 0;
-		while (next != visited[next]) {
+		while (next != parent[next]) {
 			dis.assign(n + 1, 987654321);
-			another = max(another, dijkstra(1, n, visited[next], next));
-			next = visited[next];
+			another = max(another, dijkstra(1, n, parent[next], next));
+			next = parent[next];
 		}
 		if (another == 987654321) {
 			cout << -1 << '\n';
