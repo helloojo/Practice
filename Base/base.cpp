@@ -1,4 +1,12 @@
-﻿#include <iostream>
+#include <cstring>
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <list>
+#include <stack>
+#include <queue>
+#include <algorithm>
 using namespace std;
 //BOJ #
 
