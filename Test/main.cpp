@@ -2,44 +2,48 @@
 #include <algorithm>
 using namespace std;
 
-int n, c, m;
+pair<int, int> tree[27];
 
-struct Box {
-	int start;
-	int dest;
-	int boxs;
-};
-
-Box bx[10001];
-int truck[2001];
-
-bool cmp(const Box &p, const Box &q) {
-	if (p.dest < q.dest) {
-		return true;
-	} else if (p.dest == q.dest) {
-		return p.start > q.start;
-	}
-	return false;
+void pre(int t) {
+	if (t == 0) return;
+	cout << (char)(t + 'A'-1);
+	pre(tree[t].first);
+	pre(tree[t].second);
+}
+void post(int t) {
+	if (t == 0) return;
+	post(tree[t].first);
+	post(tree[t].second);
+	cout << (char)(t + 'A'-1);
+}
+void in(int t) {
+	if (t == 0) return;
+	in(tree[t].first);
+	cout << (char)(t + 'A'-1);
+	in(tree[t].second);
 }
 
+
 int main() {
-	cin >> n >> c >> m;
-	for (int i = 0; i < m; ++i) {
-		cin >> bx[i].start >> bx[i].dest >> bx[i].boxs;
-	}
-	sort(bx, bx + m, cmp);
-	int ans = 0;
-	for (int i = 0; i < m; i++) {
-		int cur = 0;
-		for (int j = bx[i].start; j < bx[i].dest; j++) {
-			cur = max(cur, truck[j]);
+	ios_base::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
+	int n;
+	cin >> n;
+	char a, b, c;
+	for (int i = 0; i < n; i++) {
+		cin >> a >> b >> c;
+		if (b != '.') {
+			tree[a - 'A' + 1].first = b - 'A' + 1;
 		}
-		int minbox = min(bx[i].boxs, c - cur);
-		for (int j = bx[i].start; j < bx[i].dest; j++) {
-			truck[j] += minbox;
+		if (c != '.') {
+			tree[a - 'A' + 1].second = c - 'A' + 1;
 		}
-		ans += minbox;
 	}
-	cout << ans;
+	pre(1);
+	cout << '\n';
+	in(1);
+	cout << '\n';
+	post(1);
 	return 0;
 }

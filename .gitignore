@@ -8,7 +8,6 @@
 *.user
 *.userosscache
 *.sln.docstates
-Test/main.cpp
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -290,5 +289,3 @@ __pycache__/
 *.vcxproj.filters
 *.vcxproj
 *.sln
-/codeforce
-/Sort_Time_Compare
