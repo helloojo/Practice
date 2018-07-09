@@ -8,9 +8,8 @@ int main() {
 	cout.tie(NULL);
 	int t;
 	cin >> t;
-	int k;
 	bool isprime[1299710];
-	for (int i = 2; i < 1299710; i++) {
+	for (int i = 0; i < 1299710; i++) {
 		isprime[i] = true;
 	}
 	for (int i = 2; i*i < 1299710; i++) {
@@ -19,24 +18,19 @@ int main() {
 		}
 	}
 	while (t--) {
-		cin >> k;
-		if (isprime[k]) {
+		int n;
+		cin >> n;
+		if (isprime[n]) {
 			cout << 0 << '\n';
 		} else {
-			int ret = 1;
-			for (int i = k-1, j = k+1; !isprime[i] || !isprime[j];) {
-				if (!isprime[i]) {
-					i--;
-					ret++;
-				}
-				if (!isprime[j]) {
-					j++;
-					ret++;
-				}
+			int start = n;
+			while (!isprime[start--]);
+			int cnt = 0;
+			for (int i = start+1; !isprime[i]; i++) {
+				cnt++;
 			}
-			cout << ret+1 << '\n';
+			cout << cnt << '\n';
 		}
-		
 	}
 	return 0;
 }
