@@ -289,3 +289,5 @@ __pycache__/
 *.vcxproj.filters
 *.vcxproj
 *.sln
+/codeforce
+/Sort_Time_Compare
