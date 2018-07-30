@@ -5,8 +5,8 @@
 using namespace std;
 //BOJ #1753
 
-vector<vector<pair<short, int>>> adj;
-priority_queue<pair<short, int>, vector<pair<short, int>>, greater<pair<short, int>>> pq;
+vector<vector<pair<int, int>>> adj;
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
 vector<int> dis;
 int v, e;
 int k;
@@ -33,7 +33,7 @@ int main() {
 	cin.tie(NULL);
 	cin >> v >> e;
 	cin >> k;
-	adj = vector<vector<pair<short, int>>>(v + 1);
+	adj = vector<vector<pair<int, int>>>(v + 1);
 	dis = vector<int>(v + 1, 987654321);
 	int u, vv, w;
 	for (int i = 0; i < e; i++) {
