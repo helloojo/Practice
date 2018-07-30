@@ -10,12 +10,6 @@ struct Node {
 	int x;
 	int y;
 	int v;
-	Node(int _x, int _y, int _v) {
-		x = _x;
-		y = _y;
-		v = _v;
-	}
-	Node(){}
 };
 bool operator>(const Node& n,const Node& m) {
 	return n.v > m.v;
@@ -30,7 +24,7 @@ int pos[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
 
 int find() {
 	int ret = 987654321;
-	pq.push(Node(0, 0, map[0][0]-'0'));
+	pq.push({ 0, 0, map[0][0] - '0' });
 	map[0][0] = -1;
 	while (!pq.empty()) {
 		auto p = pq.top();
@@ -47,7 +41,7 @@ int find() {
 			if (map[ny][nx] == -1) {
 				continue;
 			}
-			pq.push(Node(nx, ny, p.v + (map[ny][nx]-'0')));
+			pq.push({ nx, ny, p.v + (map[ny][nx] - '0') });
 			map[ny][nx] = -1;
 		}
 	}
