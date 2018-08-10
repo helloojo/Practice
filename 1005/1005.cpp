@@ -1,55 +1,61 @@
-#include <iostream>
-#include <vector>
-#include <queue>
 #include <cstring>
+#include <cmath>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <list>
+#include <stack>
+#include <queue>
+#include <algorithm>
 using namespace std;
 //BOJ #1005
 
-int ti[1001];
-int indegree[1001];
-int memo[1001];
+
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
+	cout.tie(NULL);
 	int t;
 	cin >> t;
 	while (t--) {
-		int n, k, w;
+		int n, k;
 		cin >> n >> k;
+		vector<int> tt(n + 1);
 		vector<vector<int>> adj(n + 1);
-		queue<int> q;
-		memset(indegree, 0, sizeof(int) * 1001);
-		memset(memo, 0, sizeof(int) * 1001);
+		vector<int> in(n + 1, 0);
 		for (int i = 1; i <= n; i++) {
-			cin >> ti[i];
+			cin >> tt[i];
 		}
-		int s, d;
+		int a, b;
 		for (int i = 0; i < k; i++) {
-			cin >> s >> d;
-			adj[s].push_back(d);
-			indegree[d]++;
+			cin >> a >> b;
+			adj[a].push_back(b);
+			in[b]++;
 		}
+		int w;
 		cin >> w;
+		priority_queue<pair<int, int>> pq;
 		for (int i = 1; i <= n; i++) {
-			if (indegree[i] == 0) {
-				q.push(i);
-				memo[i] = ti[i];
+			if (in[i] == 0) {
+				pq.push({ -tt[i],i });
 			}
 		}
-		while (!q.empty()) {
-			int here = q.front();
-			q.pop();
-			for (int i = 0; i < adj[here].size(); i++) {
-				int next = adj[here][i];
-				indegree[next]--;
-				if (indegree[next] == 0) {
-					q.push(next);
+		int ret = 0;
+		while (!pq.empty()) {
+			auto p = pq.top();
+			pq.pop();
+			if (p.second == w) {
+				ret = -p.first;
+			}
+			for (int i = 0; i < adj[p.second].size(); i++) {
+				int next = adj[p.second][i];
+				in[next]--;
+				if (in[next] == 0) {
+					pq.push({ p.first - tt[next],next });
 				}
-				memo[next] = max(memo[next], memo[here] + ti[next]);
 			}
 		}
-		cout << memo[w] << '\n';
+		cout << ret << '\n';
 	}
-	return 0;
 }
