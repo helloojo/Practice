@@ -11,14 +11,15 @@ using namespace std;
 //BOJ #2406
 
 int map[1001][1001];
-
 int parent[1001];
+
 int find(int here) {
 	if (parent[here] == here) {
 		return here;
 	}
 	return parent[here] = find(parent[here]);
 }
+
 int merge(int u, int v) {
 	u = find(u);
 	v = find(v);
@@ -50,7 +51,7 @@ int main() {
 	for (int i = 1; i <= n; i++) {
 		for (int j = 1; j <= n; j++) {
 			cin >> map[i][j];
-			if (i != j) {
+			if (i<j && i!=1 && j!=1) {
 				pq.push({ -map[i][j],{i,j} });
 			}
 		}
@@ -68,7 +69,7 @@ int main() {
 			retv.push_back({ p.second.first,p.second.second });
 		}
 	}
-	cout << ret << '\n';
+	cout << ret << ' ' << retv.size() << '\n';
 	for (int i = 0; i < retv.size(); i++) {
 		cout << retv[i].first << ' ' << retv[i].second << ' ';
 	}
