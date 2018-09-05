@@ -9,7 +9,8 @@
 #include <algorithm>
 using namespace std;
 //BOJ #
-
+typedef long long ll;
+typedef unsigned long long ull;
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
