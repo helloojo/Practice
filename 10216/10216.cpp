@@ -1,81 +1,70 @@
+#include <cstring>
+#include <cmath>
 #include <iostream>
+#include <string>
+#include <vector>
+#include <list>
+#include <stack>
 #include <queue>
+#include <algorithm>
 using namespace std;
 //BOJ #10216
+typedef long long ll;
+typedef unsigned long long ull;
 
-int map[5001][5001];
-queue<pair<int, int>> q;
-int pos[4][2] = {{0,1},{0,-1},{1,0},{-1,0}};
-void BFS(int x, int y) {
-	q.push(make_pair(x, y));
-	map[y][x] = 0;
-	while(!q.empty()) {
-		auto p = q.front();
-		q.pop();
-		for(int i = 0; i<4; i++) {
-			int nx = p.first+pos[i][0];
-			int ny = p.second+pos[i][1];
-			if(nx<0||ny<0||nx>5000||ny>5000) {
-				continue;
-			}
-			if(map[ny][nx]==0) {
-				continue;
-			}
-			map[ny][nx] = 0;
-			q.push(make_pair(nx, ny));
-		}
+struct pos {
+	int x;
+	int y;
+	int r;
+	int p;
+} arr[3001];
+
+int find(int p) {
+	if(arr[p].p == p) {
+		return p;
 	}
+	return arr[p].p = find(arr[p].p);
+}
+void merge(int u, int v) {
+	u = find(u);
+	v = find(v);
+	if(u == v) {
+		return;
+	}
+	if(u > v) {
+		swap(u, v);
+	}
+	arr[v].p = u;
 }
 
-pair<int, int> coord[3000];
+int cal(pos& a, pos& b) {
+	return (a.x - b.x)*(a.x - b.x) + (a.y - b.y)*(a.y - b.y);
+}
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
+	cout.tie(NULL);
 	int t;
-	cin>>t;
-	int n;
-	int x, y, r;
+	cin >> t;
 	while(t--) {
-		cin>>n;
-		for(int i = 0; i<5001; i++) {
-			for(int j = 0; j<5001; j++) {
-				map[i][j] = 0;
-			}
-		}
-		for(int i = 0; i<n; i++) {
-			cin>>coord[i].first>>coord[i].second>>r;
-			x = coord[i].first;
-			y = coord[i].second;
-			map[y][x] = 1;
-			for(int j = 0; j<=r; j++) {
-				if(x+j<=5000) {
-					map[y][x+j] = 1;
-				}
-				if(x-j>=0) {
-					map[y][x-j] = 1;
-				}
-				if(y+j<=5000) {
-					map[y+j][x] = 1;
-				}
-				if(y-j>=0) {
-					map[y-j][x] = 1;
+		int n;
+		cin >> n;
+		for(int i = 1; i <= n; i++) {
+			cin >> arr[i].x >> arr[i].y >> arr[i].r;
+			arr[i].p = i;
+			for(int j = 1; j < i; j++) {
+				if((arr[i].r + arr[j].r)*(arr[i].r + arr[j].r) >= cal(arr[i], arr[j])) {
+					merge(i, j);
 				}
 			}
 		}
 		int ret = 0;
-
-		for(int i = 0; i<n; i++) {
-			x = coord[i].first;
-			y = coord[i].second;
-			if(map[y][x]==1) {
-				BFS(x, y);
+		for(int i = 1; i <= n; i++) {
+			if(i == find(i)) {
 				ret++;
 			}
 		}
-		
-		cout<<ret<<'\n';
+		cout << ret << '\n';
 	}
-
-	return 0;
 }
