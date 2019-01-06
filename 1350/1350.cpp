@@ -25,7 +25,7 @@ int main() {
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 	}
-	int ret = 0;
+	long long ret = 0;
 	int clu;
 	cin >> clu;
 	for (int i = 0; i < n; i++) {
