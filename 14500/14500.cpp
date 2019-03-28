@@ -1,32 +1,52 @@
 #include <iostream>
 #include <algorithm>
-#include <cstring>
-using namespace std;
+#include <vector>
 //BOJ #14500
-int map[501][501];
-bool visited[501][501];
-int pos[4][2] = { {0,1},{0,-1},{1,0},{-1,0} };
+using namespace std;
+
 int n, m;
-int ret = 0;
-void dfs(int y, int x, int cnt, int sum) {
-	if (y < 0 || x < 0 || x >= m || y >= n) return;
-	if (visited[y][x]) return;
-	visited[y][x] = true;
-	if (cnt == 4) {
-		ret = max(ret, sum+ map[y][x]);
+int map[501][501];
+vector<vector<vector<pair<int, int>>>> tetris{
+	{
+		{{0,0},{1,0},{2,0},{3,0}},
+		{{0,0},{0,1},{0,2},{0,3}}
+	},
+	{
+		{{0,0},{1,0},{0,1},{1,1}}
+	},
+	{
+		{{0, 0}, {0, 1}, {1, 1}, {2, 1}},
+		{{0, 0}, {1, 0}, {0, 1}, {0, 2}},
+		{{0, 0}, {1, 0}, {2, 0}, {2, 1}},
+		{{1, 0}, {1, 1}, {1, 2}, {0, 2}}
+	},
+	{
+		{{2, 0}, {2, 1}, {1, 1}, {0, 1}},
+		{{0, 0}, {0, 1}, {0, 2}, {1, 2}},
+		{{0, 0}, {0, 1}, {1, 0}, {2, 0}},
+		{{0, 0}, {1, 0}, {1, 1}, {1, 2}}
+	},
+	{
+		{{0, 1}, {1, 1}, {1, 0}, {2, 0}},
+		{{0, 0}, {0, 1}, {1, 1}, {1, 2}},
+		{{0, 1}, {1, 1}, {1, 0}, {2, 0}},
+		{{0, 0}, {0, 1}, {1, 1}, {1, 2}}
+	},
+	{
+		{{0, 1}, {1, 1}, {1, 0}, {2, 1}},
+		{{0, 0}, {0, 1}, {1, 1}, {0, 2}},
+		{{0, 0}, {1, 0}, {1, 1}, {2, 0}},
+		{{0, 1}, {1, 0}, {1, 1}, {1, 2}}
+	},
+	{
+		{{0, 0}, {1, 0}, {1, 1}, {2, 1}},
+		{{1, 0}, {1, 1}, {0, 1}, {0, 2}},
+		{{0, 0}, {1, 0}, {1, 1}, {2, 1}},
+		{{1, 0}, {1, 1}, {0, 1}, {0, 2}}
 	}
-	for (int i = 0; i < 4; i++) {
-		int ny = y + pos[i][0];
-		int nx = x + pos[i][1];
-		dfs(ny, nx, cnt + 1, sum + map[y][x]);
-	}
-}
-int T[4][4][2] = {
-	{{0,0},{1,0},{2,0},{1,1}},
-	{{0,0},{0,1},{0,2},{1,1}},
-	{{0,0},{1,0},{2,0},{1,-1}},
-	{{0,0},{0,1},{0,2},{-1,1}}
 };
+
+
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
@@ -37,25 +57,29 @@ int main() {
 			cin >> map[i][j];
 		}
 	}
+	int ret = 0;
+	int ts1 = tetris.size();
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < m; j++) {
-			memset(visited, 0, sizeof(visited));
-			dfs(i, j, 1, 0);
-			int cur = 0;
-			for (int k = 0; k < 4; k++) {
-				cur = 0;
-				for (int p = 0; p < 4; p++) {
-					int nx = j + T[k][p][0];
-					int ny = i + T[k][p][1];
-					if (nx < 0 || ny < 0 || nx >= m || ny >= n) {
-						cur = 0;
-						break;
+			for (int p = 0; p < ts1; p++) {
+				int ts2 = tetris[p].size();
+				for (int q = 0; q < ts2; q++) {
+					int cur = 0;
+					int ts3 = tetris[p][q].size();
+					for (int r = 0; r < ts3; r++) {
+						int nx = j + tetris[p][q][r].first;
+						int ny = i + tetris[p][q][r].second;
+						if (nx < 0 || ny < 0 || nx >= m || ny >= n) {
+							cur = 0;
+							break;
+						}
+						cur += map[ny][nx];
 					}
-					cur += map[ny][nx];
+					ret = max(ret, cur);
 				}
-				ret = max(ret, cur);
 			}
 		}
 	}
 	cout << ret;
+	return 0;
 }
