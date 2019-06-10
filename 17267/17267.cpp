@@ -1,10 +1,9 @@
-#include <iostream>
-#include <queue>
-using namespace std;
+#include <cstdio>
+#include <deque>
 int l, r;
 int n, m;
 int young[2][2] = { {0,1},{0,-1} };
-int map[1001][1001];
+char map[1001][1001];
 const int SIZE = (1 << 20);
 char buf[SIZE];
 int p = SIZE;
@@ -26,7 +25,7 @@ inline void readint(int& x) {
 		temp = getcha();
 	}
 }
-inline void readoneint(int& x) {
+inline void readoneint(char& x) {
 	int temp = getcha();
 	while (temp<'0' || temp>'9') {
 		temp = getcha();
@@ -38,50 +37,48 @@ struct state {
 	int x, y;
 	int l, r;
 };
-bool operator<(const state& a, const state& b) {
-	return (a.l + a.r) < (b.l + b.r);
-}
+std::deque<state> q;
 int bfs(int y, int x) {
 	if (y == -1) {
 		return 0;
 	}
 	map[y][x] = 3;
-	priority_queue<state> q;
-	q.push({ x,y,l,r });
+	q.push_back({ x,y,l,r });
 	int ret = 1;
 	while (!q.empty()) {
-		auto p = q.top();
-		q.pop();
+		auto p = q.front();
+		q.pop_front();
+		int nx, ny;
 		for (int i = 0; i < 2; i++) {
-			int nx = p.x + young[i][0];
-			int ny = p.y + young[i][1];
+			nx = p.x + young[i][0];
+			ny = p.y + young[i][1];
 			if (!(nx < 0 || ny < 0 || nx >= m || ny >= n)) {
 				if (map[ny][nx] == 0) {
 					map[ny][nx] = 3;
 					ret++;
-					q.push({ nx,ny,p.l,p.r });
+					q.push_front({ nx,ny,p.l,p.r });
 				}
 			}
 		}
 		if (p.l) {
-			int nx = p.x - 1;
-			int ny = p.y;
+			nx = p.x - 1;
+			ny = p.y;
 			if (!(nx < 0 || ny < 0 || nx >= m || ny >= n)) {
 				if (map[ny][nx] == 0) {
 					map[ny][nx] = 3;
 					ret++;
-					q.push({ nx,ny,p.l - 1,p.r });
+					q.push_back({ nx,ny,p.l - 1,p.r });
 				}
 			}
 		}
 		if (p.r) {
-			int nx = p.x + 1;
-			int ny = p.y;
+			nx = p.x + 1;
+			ny = p.y;
 			if (!(nx < 0 || ny < 0 || nx >= m || ny >= n)) {
 				if (map[ny][nx] == 0) {
 					map[ny][nx] = 3;
 					ret++;
-					q.push({ nx,ny,p.l,p.r - 1 });
+					q.push_back({ nx,ny,p.l,p.r - 1 });
 				}
 			}
 		}
@@ -104,6 +101,6 @@ int main() {
 			}
 		}
 	}
-	printf("%d",bfs(pos[0], pos[1]));
+	printf("%d", bfs(pos[0], pos[1]));
 	return 0;
 }
