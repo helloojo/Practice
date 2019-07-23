@@ -1,8 +1,6 @@
 #include <cstdio>
 #define MIN(a,b) ((a<b)?a:b)
-int v,m,a,b,c;
-int J,S;
-int d[101][101];
+int v,m,a,b,c,J,S,d[101][101];
 int main() {
 	int i,j,k;
 	scanf("%d%d",&v,&m);
@@ -28,20 +26,18 @@ int main() {
 		if(i==J||i==S)continue;
 		dis=MIN(dis,d[J][i]+d[S][i]);
 	}
-	int minji=987654322;
+	int mj=987654322;
 	for(i=1;i<=v;i++){
-		if(i==J||i==S)continue;
-		if(dis==d[J][i]+d[S][i]){
-			if(d[J][i]<=d[S][i]){
-				minji=MIN(d[J][i],minji);
-			}
+		if(!(i == J || i == S)&&dis==d[J][i]+d[S][i] && d[J][i] <= d[S][i]){
+			mj =MIN(d[J][i],mj);
 		}
 	}
+	c = -1;
 	for(i=1;i<=v;i++){
-		if(minji==d[J][i]){
-			printf("%d",i);
-			return 0;
+		if(mj==d[J][i]){
+			c = i;
+			break;
 		}
 	}
-	printf("-1");
+	printf("%d", c);
 }
