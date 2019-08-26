@@ -1,28 +1,68 @@
 #include <iostream>
+#include <string>
+#include <cmath>
 using namespace std;
 //BOJ #1436
-int order[] = {0,1,2,3,4,5,0,1,2,3,4,5,6,7,8,9,7,8,9};
-int main() {
-	int n;
-	cin>>n;
-	int first = n/19;
-	int second = n%19;
-	if(!second) {
-		first--;
-		second = 19;
-	}
-	if(first) {
-		printf("%d", first);
-	}
-	if((second>=0&&second<=6)||(second>=17&&second<=18)) {
-		if(second) {
-			printf("%d666", order[second-1]);
-		} else {
-			printf("666");
-		}
-	} else {
-		printf("666%d", order[second-1]);
-	}
 
-	return 0;
+int main() {
+  int n;
+  cin >> n;
+  int front = 0;
+  int back = 0;
+  bool f = true;
+  int up = 0;
+  int upmax = 0;
+  int e = 0;
+  for (int i = 1; i < n; i++) {
+    if (f) {
+      front++;
+      if (front % 10 == 6) {
+        int t = front;
+        while (t) {
+          if (t % 10 == 6) {
+            up++;
+            t /= 10;
+          } else {
+            break;
+          }
+        }
+        e = t;
+        upmax = pow(10, up);
+        f = false;
+        back = 0;
+      }
+    } else {
+      back++;
+      if (back == upmax) {
+        up = 0;
+        f = true;
+        front++;
+      }
+    }
+  }
+  if (f) {
+    if (front) {
+      cout << front << 666;
+    } else {
+      cout << 666;
+    }
+  } else {
+    if (e) {
+      cout << e << 666;
+    } else {
+      cout << 666;
+    }
+    int cc = 0;
+    int t = back;
+    while (t) {
+      t /= 10;
+      cc++;
+    }
+    for (int i = 0; i < up - cc; i++) {
+      cout << 0;
+    }
+    if(back)
+      cout << back;
+  }
+  return 0;
 }
