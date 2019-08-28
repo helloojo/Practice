@@ -4,49 +4,43 @@
 using namespace std;
 //BOJ #6603
 
-int map[50][50];
-int s[13];
-int st[6];
-int in = -1;
-bool visit[50];
-void dfs(int here) {
-	st[++in] = here;
-	visit[here] = true;
-	if (in == 6) {
-		for (int i = 0; i < in; i++) {
-			cout << st[i] << ' ';
-		}
-		cout << '\n';
-		in--;
-		return;
-	}
-	for (int i = 0; i < 50; i++) {
-		if (map[here][i] && visit[i]) {
-			dfs(i);
-		}
-	}
+int arr[13];
+int lotto[6];
+void print() {
+  for (int i = 0; i < 6; i++) {
+    cout << lotto[i] << ' ';
+  }
+  cout << '\n';
+}
+void find(int here,int k, int idx=1) {
+  if (idx == 6) {
+    print();
+    return;
+  }
+  for (int i = here + 1; i < k; i++) {
+    lotto[idx] = arr[i];
+    find(i, k, idx + 1);
+  }
 }
 
 int main() {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
-	int k;
-	cin >> k;
-	while (k != 0) {
-		memset(map, 0, sizeof(map));
-		memset(visit, 0, sizeof(visit));
-		for (int i = 0; i < k; i++) {
-			cin >> s[i];
-		}
-		for (int i = 0; i < k; i++) {
-			for (int j = 0; j < k; j++) {
-				if (i == j) continue;
-				map[s[i]][s[j]] = 1;
-				map[s[j]][s[i]] = 1;
-			}
-		}
-		dfs(s[0]);
-		cin >> k;
-	}
+  cout.tie(NULL);
+  int k;
+  while (true) {
+    cin >> k;
+    if (k == 0) {
+      break;
+    }
+    for (int i = 0; i < k; i++) {
+      cin >> arr[i];
+    }
+    for (int i = 0; i < k; i++) {
+      lotto[0] = arr[i];
+      find(i, k);
+    }
+    cout << '\n';
+  }
 	return 0;
 }
