@@ -9,6 +9,7 @@ vector<int> visited;
 int visit = 1;
 int sccnum = 0;
 stack<int> st;
+
 void dfs(int here, vector<vector<int>>& adj, bool scc = false) {
   if (visited[here] == visit) {
     return;
@@ -25,7 +26,7 @@ void dfs(int here, vector<vector<int>>& adj, bool scc = false) {
   }
 }
 
-int notnum(int n) { return (n % 2 ? n - 1 : n + 1); }
+int notnum(int num, int n) { return (n << 1) - num; }
 
 int main() {
   ios_base::sync_with_stdio(false);
@@ -33,21 +34,23 @@ int main() {
   cout.tie(0);
   int n, m;
   cin >> n >> m;
-  adj.resize((n << 1) + 2);
-  adjrev.resize((n << 1) + 2);
-  sccidx.resize((n << 1) + 2, -1);
-  visited.resize((n << 1) + 2);
+  int graph_size = (n << 1) + 1;
+  adj.resize(graph_size);
+  adjrev.resize(graph_size);
+  sccidx.resize(graph_size, -1);
+  visited.resize(graph_size);
   int a, b;
   while (m--) {
     cin >> a >> b;
-    a = (a < 0 ? -(a + 1) * 2 : a * 2 - 1);
-    b = (b < 0 ? -(b + 1) * 2 : b * 2 - 1);
-    adj[notnum(a)].push_back(b);
-    adj[notnum(b)].push_back(a);
-    adjrev[a].push_back(notnum(b));
-    adjrev[b].push_back(notnum(a));
+    a += n;
+    b += n;
+    adj[notnum(a, n)].push_back(b);
+    adj[notnum(b, n)].push_back(a);
+    adjrev[a].push_back(notnum(b, n));
+    adjrev[b].push_back(notnum(a, n));
   }
-  for (int i = 0; i < 2 * n; i++) {
+  for (int i = 0; i < graph_size; i++) {
+    if (i == n) continue;
     dfs(i, adj);
   }
   int here;
@@ -60,9 +63,10 @@ int main() {
       sccnum++;
     }
   }
+
   bool can = true;
   for (int i = 0; i < n; i++) {
-    if (sccidx[i * 2] == sccidx[i * 2 + 1]) {
+    if (sccidx[i] == sccidx[(n << 1) - i]) {
       can = false;
       break;
     }
