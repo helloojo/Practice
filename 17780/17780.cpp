@@ -39,7 +39,6 @@ pair<bool, int> can_go_calculate_direction(Piece& p, int n) {
     if (map[ny][nx] == BLUE) {
       return { false,dir };
     }
-    return { true,dir };
   }
   return { true,dir };
 }
@@ -56,29 +55,27 @@ bool move_piece(Piece& p, int n, int k) {
   piece_map[p.y][p.x] = nullptr;
   int nx = p.x + pos[p.dir][0];
   int ny = p.y + pos[p.dir][1];
-  if (piece_map[ny][nx] == nullptr) {
-    if (map[ny][nx] == RED) {
-      int here = p.idx;
-      int prev = -1;
-      bool can = true;
-      while (can) {
-        can = false;
-        for (int i = 1; i <= k; i++) {
-          if (i == prev) continue;
-          if (graph[here][i]) {
-            graph[here][i] = 0;
-            graph[i][here] = 1;
-            prev = here;
-            here = i;
-            can = true;
-            break;
-          }
+  int here = p.idx;
+  if (map[ny][nx] == RED) {
+    int prev = -1;
+    bool can = true;
+    while (can) {
+      can = false;
+      for (int i = 1; i <= k; i++) {
+        if (i == prev) continue;
+        if (graph[here][i]) {
+          graph[here][i] = 0;
+          graph[i][here] = 1;
+          prev = here;
+          here = i;
+          can = true;
+          break;
         }
       }
-      piece_map[ny][nx] = &pieces[here];
-    } else {
-      piece_map[ny][nx] = &pieces[p.idx];
     }
+  }
+  if (piece_map[ny][nx] == nullptr) {
+    piece_map[ny][nx] = &pieces[here];
   } else {
     int idx = piece_map[ny][nx]->idx;
     bool can = true;
@@ -91,30 +88,10 @@ bool move_piece(Piece& p, int n, int k) {
         }
       }
     }
-    if (map[ny][nx] == RED) {
-      int here = p.idx;
-      int prev = -1;
-      bool can = true;
-      while (can) {
-        can = false;
-        for (int i = 1; i <= k; i++) {
-          if (i == prev) continue;
-          if (graph[here][i]) {
-            graph[here][i] = 0;
-            graph[i][here] = 1;
-            prev = here;
-            here = i;
-            can = true;
-            break;
-          }
-        }
-      }
-      graph[idx][here] = 1;
-    } else {
-      graph[idx][p.idx] = 1;
-    }
+    graph[idx][here] = 1;
   }
-  int here = piece_map[ny][nx]->idx;
+
+  here = piece_map[ny][nx]->idx;
   int cnt = 1;
   bool can = true;
   while (can) {
