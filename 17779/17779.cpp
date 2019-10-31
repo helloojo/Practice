@@ -5,7 +5,6 @@ using namespace std;
 int map[21][21];
 int visited[21][21];
 int visit;
-int answer = 987654321;
 
 void calculate_min_max(int& maxn, int& minn, int& sum) {
   maxn = max(maxn, sum);
@@ -13,7 +12,7 @@ void calculate_min_max(int& maxn, int& minn, int& sum) {
   sum = 0;
 }
 
-void calculate_min_value(int n, int sy, int sx, int ly, int lx, int ry, int rx, int cy, int cx) {
+int calculate(int n, int sy, int sx, int ly, int lx, int ry, int rx, int cy, int cx) {
   int max_sum = 0;
   int min_sum = 987654321;
   int idx = 0;
@@ -52,7 +51,7 @@ void calculate_min_value(int n, int sy, int sx, int ly, int lx, int ry, int rx, 
   for (int i = ly; i < n; i++) {
     int dj;
     if (i < cy) {
-      dj = lx+idx++;
+      dj = lx + idx++;
     } else {
       dj = cx;
     }
@@ -84,59 +83,59 @@ void calculate_min_value(int n, int sy, int sx, int ly, int lx, int ry, int rx, 
     }
   }
   calculate_min_max(max_sum, min_sum, sum);
-  answer = min(answer, max_sum - min_sum);
+  return max_sum - min_sum;
 }
 
-void find_cross_point(int n, int sy, int sx, int ly, int lx, int ry, int rx) {
+int find_cross_point(int n, int sy, int sx, int ly, int lx, int ry, int rx) {
   pair<int, int> right = { ry,rx };
   pair<int, int> left = { ly,lx };
   while (right.first != left.first) {
     if (right.first > left.first) {
       left.first++;
       left.second++;
-    } else {
+    } else if (right.first < left.first) {
       right.first++;
       right.second--;
     }
   }
-  while (right != left) {
-    left.first++;
-    left.second++;
-    right.first++;
-    right.second--;
-  }
+  int cx = (right.second + left.second) / 2;
+  int cy = (right.first + (right.second - cx));
   visit++;
-  calculate_min_value(n, sy, sx, ly, lx, ry, rx, right.first, right.second);
+  return calculate(n, sy, sx, ly, lx, ry, rx, cy, cx);
 }
 
-void find_right_point(int n, int sy, int sx, int ly, int lx) {
+int find_right_point(int n, int sy, int sx, int ly, int lx) {
+  int answer = 987654321;
+  int y = sy + 1;
   int x = sx + 1;
-  int y = sy + 1;
-  while (x < n && y < n) {
-    find_cross_point(n, sy, sx, ly, lx, y++, x++);
+  while (y < n && x < n) {
+    answer = min(answer, find_cross_point(n, sy, sx, ly, lx, y++, x++));
   }
+  return answer;
 }
 
-void find_left_point(int n, int sy, int sx) {
+int find_left_point(int n, int sy, int sx) {
+  int answer = 987654321;
+  int y = sy + 1;
   int x = sx - 1;
-  int y = sy + 1;
-  while (x >= 0 && y < n) {
-    find_right_point(n, sy, sx, y++, x--);
+  while (y < n && x >= 0) {
+    answer = min(answer, find_right_point(n, sy, sx, y++, x--));
   }
+  return answer;
 }
 
-void find_answer(int n) {
+int solve(int n) {
+  int answer = 987654321;
   for (int i = 0; i < n; i++) {
     for (int j = 0; j < n; j++) {
-      find_left_point(n, i, j);
+      answer = min(answer, find_left_point(n, i, j));
     }
   }
+  return answer;
 }
 
 int main() {
   ios_base::sync_with_stdio(false);
-  cin.tie(0);
-  cout.tie(0);
   int n;
   cin >> n;
   for (int i = 0; i < n; i++) {
@@ -144,6 +143,6 @@ int main() {
       cin >> map[i][j];
     }
   }
-  find_answer(n);
-  cout << answer << '\n';
+  cout << solve(n);
+  return 0;
 }
