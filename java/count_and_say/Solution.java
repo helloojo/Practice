@@ -25,9 +25,4 @@ public class Solution {
 
         return stringBuilder.toString();
     }
-
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println(solution.countAndSay(5));
-    }
 }
