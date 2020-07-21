@@ -291,3 +291,5 @@ __pycache__/
 *.sln
 /codeforce
 /Sort_Time_Compare
+
+/out
