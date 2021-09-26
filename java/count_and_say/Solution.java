@@ -1,6 +1,6 @@
 package count_and_say;
 
-public class Solution {
+class Solution {
     public String countAndSay(int n) {
         if (n == 1) {
             return "1";

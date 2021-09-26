@@ -3,7 +3,7 @@ package longest_substring_without_repeating_characters;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Solution {
+class Solution {
     public int lengthOfLongestSubstring(String s) {
         int longestSubStrLength = 0;
         Set<Character> charSet=new HashSet<>();

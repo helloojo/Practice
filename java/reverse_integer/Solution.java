@@ -1,6 +1,6 @@
 package reverse_integer;
 
-public class Solution {
+class Solution {
     public int reverse(int x) {
         long ret = 0;
         while (x != 0) {

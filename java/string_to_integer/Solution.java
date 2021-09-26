@@ -1,6 +1,6 @@
 package string_to_integer;
 
-public class Solution {
+class Solution {
     public int myAtoi(String str) {
         long result = 0;
         str = str.trim();

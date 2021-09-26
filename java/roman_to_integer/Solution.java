@@ -3,7 +3,7 @@ package roman_to_integer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Solution {
+class Solution {
     private final Map<Character, Integer> romanMap;
 
     public Solution() {

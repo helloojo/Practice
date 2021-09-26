@@ -1,6 +1,6 @@
 package running_sum_of_1d_array;
 
-public class Solution {
+class Solution {
     public int[] runningSum(int[] nums) {
         int[] answer = new int[nums.length];
         int numsLength = nums.length;

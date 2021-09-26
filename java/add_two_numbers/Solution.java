@@ -1,6 +1,6 @@
 package add_two_numbers;
 
-public class Solution {
+class Solution {
     public static class ListNode {
         int val;
         ListNode next;
